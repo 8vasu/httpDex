@@ -30,6 +30,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.MapGet("/pokemon", (PokemonContext db) => db.Pokemon.ToList());
+app.MapGet("/pokemon/{name}", (PokemonContext db, string name) => 
+    db.Pokemon.FirstOrDefault(p => p.Name.ToLower() == name.ToLower()));
 app.Run();
 
 public class Pokemon
@@ -48,17 +50,17 @@ public class PokemonContext : DbContext
 
 public class PokemonList
 {
-    public List<PokemonItem> Results { get; set; }
+    public List<PokemonItem> Results { get; set; } = new();
 }
 
 public class PokemonItem
 {
-    public string Url { get; set; }
+    public string Url { get; set; } = "";
 }
 
 public class PokemonData
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = "";
     public int Height { get; set; }
     public int Weight { get; set; }
 }
